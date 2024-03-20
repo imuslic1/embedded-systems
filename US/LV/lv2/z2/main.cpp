@@ -4,7 +4,12 @@
 BusOut leds(LED0, LED1, LED2, LED3, LED4, LED5, LED6, LED7);
 DigitalIn taster(Taster_1);
 
+DigitalOut E(LED_ACT);
+
 int main() {
+
+    E = 0;
+    leds = 0;
     
     int brojac = 0;
     bool increment = true;
@@ -14,7 +19,7 @@ int main() {
         
         if(taster == 1) {
             increment = !increment;            
-            wait_us(200000);
+            wait_us(20000);
         }
             
         if(increment)

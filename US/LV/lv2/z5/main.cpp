@@ -1,36 +1,28 @@
 #include "mbed.h"
 #include "lpc1114etf.h"
-
-#define T 1
+#include <cmath>
 
 DigitalOut led(LED0);
+DigitalOut E(LED_ACT);
+
 
 int main() {
-    float on = T;
-    float off = T;
-    const float deltaT = 0.9/(30*T);
+    E = 0;
+    double T = 0.005;
+    double on = T;
+    bool smjer = true;
         
     while(1) {
-        on = off = T;
+        led = 1;
+        wait_us(on * 1e6);
+        led = 0;
+        wait_us((2*T-on)*1e6);
         
-        while(on <= 1.9*T) {
-            led = 1; 
-            wait_us(on*(1e6));
-            led = 0;
-            wait_us(off*(1e6));
-            
-            on += deltaT;
-            off -= deltaT;
-        }
+        if(smjer && std::abs(on-1.9*T) < 1e-16) smjer = false;
+        else if(!smjer && std::abs(on - 0.1*T) < 1e-16) smjer = true;
+
+        if(smjer) on += 3./50*T;
+        else on -= 3./50*T;
         
-        while(off <= 1.9*T) {
-            led = 1;
-            wait_us(on*(1e6));
-            led = 0;
-            wait_us(off*(1e6));
-            
-            on -= deltaT;
-            off += deltaT;
-        }
     }
 }
