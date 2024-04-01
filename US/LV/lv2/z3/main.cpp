@@ -22,3 +22,38 @@ int main() {
         }
     }
 }
+
+
+int main(){
+    E=0;
+    leds=0;
+    int brojac=0;
+    int pomocna=0;
+
+    while(1){
+        brojac++;
+        leds=brojac;
+        wait_us(100000);
+
+        for(int i=1; i<8; i++){
+            brojac*=2;
+            leds=brojac;
+            wait_us(100000);
+        }
+
+        brojac=255;
+        leds=brojac;
+        wait_us(100000);
+
+        pomocna=256;
+
+        for(int i=1; i<9; i++){
+            brojac=brojac-pomocna/2;
+            leds=brojac;
+            wait_us(100000);
+            pomocna/=2;
+        }
+
+        brojac=0;
+    }
+}
