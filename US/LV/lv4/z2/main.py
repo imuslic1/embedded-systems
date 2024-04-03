@@ -19,7 +19,7 @@ SCR_ROT = const(2)
 CENTER_Y = int(SCR_WIDTH/2)
 CENTER_X = int(SCR_HEIGHT/2)
 
-print(os.uname())
+#print(os.uname())
 
 # Podešenja SPI komunikacije sa displejem
 TFT_CLK_PIN = const(18)
@@ -143,7 +143,7 @@ def line(self, x0, y0, x1, y1, *args, **kwargs):
             err += dx
         x0 += 1
 
-graphics = gfx.GFX(240, 320, display.pixel, hline=fast_hline, vline=fast_vline)
+gfx = gfx.GFX(240, 320, display.pixel, hline=fast_hline, vline=fast_vline)
 
 #graphics.line(0, 0, 239, 319, color565(255, 0, 0))
 vrijeme = 5
@@ -161,9 +161,17 @@ while True :
 
     #graphics.line(20,20,20,100)
 
-    graphics.line(20, 20, 20, 220, color565(255, 255, 255))
-    graphics.line(20, 220, 260, 220, color565(255, 255, 255))
-    graphics.fill_circle(20+vrijeme,220-int((tmp-22)*18),4, color565(150, 200, 0) )
+    gfx.line(20, 20, 20, 220, color565(255, 255, 255))
+    gfx.line(20, 220, 260, 220, color565(255, 255, 255))
+    display.set_pos(14, 220)
+    display.print("20")
+    display.set_pos(14, 160)
+    display.print("25")
+    display.set_pos(14, 100)
+    display.print("30")
+    display.set_pos(14, 0)
+    display.print("40")
+    gfx.fill_circle(20+vrijeme,220-int((tmp-22)*18),4, color565(150, 200, 0) )
     vrijeme = vrijeme + 5
     if(20 + vrijeme) > 260:
         vrijeme = 5
