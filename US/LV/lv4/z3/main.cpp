@@ -18,20 +18,18 @@ DigitalOut e(LED_ACT);
 int main() {  
     e = 0;  
     while(true) {
+            
+        if(potMeter < 1./9) leds = nula;  
+        else if(potMeter >=1./9 && potMeter < 2*1./9) leds = jedan;  
+        else if(potMeter >=2*1./9 && potMeter < 3*1./9) leds = dva;  
+        else if(potMeter >=3*1./9 && potMeter < 4*1./9) leds = tri;  
+        else if(potMeter >=4*1./9 && potMeter < 5*1./9) leds = cetiri;  
+        else if(potMeter >=5*1./9 && potMeter < 6*1./9) leds = pet;  
+        else if(potMeter >=6*1./9 && potMeter < 7*1./9) leds = sest;  
+        else if(potMeter >=7*1./9 && potMeter < 8*1./9) leds = sedam;  
+        else if(potMeter > 8*1./9) leds = osam;
         
-    
-    if(potMeter < 1./9) leds = nula;  
-    else if(potMeter >=1./9 && potMeter < 2*1./9) leds = jedan;  
-    else if(potMeter >=2*1./9 && potMeter < 3*1./9) leds = dva;  
-    else if(potMeter >=3*1./9 && potMeter < 4*1./9) leds = tri;  
-    else if(potMeter >=4*1./9 && potMeter < 5*1./9) leds = cetiri;  
-    else if(potMeter >=5*1./9 && potMeter < 6*1./9) leds = pet;  
-    else if(potMeter >=6*1./9 && potMeter < 7*1./9) leds = sest;  
-    else if(potMeter >=7*1./9 && potMeter < 8*1./9) leds = sedam;  
-    else if(potMeter > 8*1./9) leds = osam;
-    
-    wait_us(10);
- 
+        wait_us(10);
     }
     
 }

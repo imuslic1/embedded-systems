@@ -6,14 +6,14 @@ leds = [Pin(i, Pin.OUT) for i in range(4, 12)]
 adc = ADC(Pin(28))
 
 def decimal_to_binary_8bits(n):
-    # Convert decimal to binary and remove the '0b' prefix
+    # Pretvori decimalni oblik u binarni i skloni '0b' prefiks
     binary_str = bin(int(n))[2:]
     
-    # Prepend zeros until the length is 8
+    # Dodaji nule na početak dok veličina ne bude 8
     while len(binary_str) < 8:
         binary_str = '0' + binary_str
     
-    # Convert the binary string to a list of integers
+    # Pretvori binarni string u listu int-ova
     binary_list = [int(bit) for bit in binary_str]
     
     return binary_list

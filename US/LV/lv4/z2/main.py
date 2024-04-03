@@ -1,7 +1,6 @@
 from ili934xnew import ILI9341, color565
 from machine import Pin, SPI
 from micropython import const
-import os
 import glcdfont
 import tt14
 import tt24
@@ -18,8 +17,6 @@ SCR_HEIGHT = const(240)
 SCR_ROT = const(2)
 CENTER_Y = int(SCR_WIDTH/2)
 CENTER_X = int(SCR_HEIGHT/2)
-
-#print(os.uname())
 
 # Podešenja SPI komunikacije sa displejem
 TFT_CLK_PIN = const(18)
@@ -115,8 +112,8 @@ def fast_vline(x, y, height, color):
     display.fill_rectangle(x, y, 1, height, color)
 
 def line(self, x0, y0, x1, y1, *args, **kwargs):
-# Line drawing function. Will draw a single pixel wide line starting at
-# x0, y0 and ending at x1, y1.
+# Funkcija za crtanje linije. 
+# Crta liniju koja počinje na (x0, y0) i završava na (x1, y1)
     steep = abs(y1 - y0) > abs(x1 - x0)
     if steep:
         x0, y0 = y0, x0
@@ -145,7 +142,6 @@ def line(self, x0, y0, x1, y1, *args, **kwargs):
 
 gfx = gfx.GFX(240, 320, display.pixel, hline=fast_hline, vline=fast_vline)
 
-#graphics.line(0, 0, 239, 319, color565(255, 0, 0))
 vrijeme = 5
 t=0
 while True :
@@ -158,8 +154,6 @@ while True :
     display.print('Temp: '+ str(tmp) + " C")
     display.print('Napon: ' + str(volt) + 'mV')
     display.print('Vrijeme: ' + str(t) + 's')
-
-    #graphics.line(20,20,20,100)
 
     gfx.line(20, 20, 20, 220, color565(255, 255, 255))
     gfx.line(20, 220, 260, 220, color565(255, 255, 255))
@@ -177,4 +171,3 @@ while True :
         vrijeme = 5
         display.erase()
     t+=1
-    #display.erase()
