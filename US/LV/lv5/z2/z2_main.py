@@ -3,7 +3,7 @@ from time import sleep
 sleep(0.1) # Wait for USB
 
 # Initialize the photoresistor
-photoRes = ADC(Pin(26)) 
+photoRes = ADC(Pin(28)) 
 
 # Initialize the LEDs as PWM outputs
 leds = [PWM(Pin(i)) for i in range(4, 12)] 
@@ -32,8 +32,8 @@ def update_leds(n_leds):
 #The voltage drop across the photoresistor is never 0V 
 # so it needs to be scaled accordingly. Performs a linear transformation.
 def scaleVoltage(readVoltage):
-  k = 65535/(65535-56000)
-  return int(k*readVoltage - 56000*k)
+  k = 64000/(64000-47900)
+  return int(k*readVoltage - 47900*k)
       
     
 while True: 

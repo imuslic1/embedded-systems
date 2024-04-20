@@ -24,7 +24,7 @@ def update_leds(num, leds):
         leds[i].value(num_binList[i])
 
 def set_t(adc_val):
-    return 0.1 + 1.9*adc_val/65535
+    return 0.1 + 0.1*adc_val/65535
 
 brojac = 0
 t = 0.1
