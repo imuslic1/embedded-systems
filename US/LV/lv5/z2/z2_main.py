@@ -29,7 +29,7 @@ def update_leds(n_leds):
       leds[i].duty_u16(0)
 
 # Scale the input voltage. 
-#The voltage drop across the photoresistor is never 0V 
+# The voltage drop across the photoresistor is never 0V 
 # so it needs to be scaled accordingly. Performs a linear transformation.
 def scaleVoltage(readVoltage):
   k = 64000/(64000-47900)
