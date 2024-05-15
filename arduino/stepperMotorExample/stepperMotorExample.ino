@@ -3,8 +3,10 @@
 #define STEPPER_PIN_3 11
 #define STEPPER_PIN_4 12
 
-#define LED_FORWARD 3
-#define LED_BACKWARD 2
+#define LED_GREEN 3
+#define LED_RED 2
+
+#define FULL_ROTATION_STEPS 4096 // 28BYJ-48 stepper motor has 4096 steps per full rotation
 
 int step_number = 0;
 
@@ -13,102 +15,42 @@ void setup() {
   pinMode(STEPPER_PIN_2, OUTPUT);
   pinMode(STEPPER_PIN_3, OUTPUT);
   pinMode(STEPPER_PIN_4, OUTPUT);
-  pinMode(LED_FORWARD, OUTPUT);
-  pinMode(LED_BACKWARD, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
+  pinMode(LED_RED, OUTPUT);
 }
 
 void singleStep(bool dir){
-    if(!dir){
-      switch(step_number){
-        case 0:
-        digitalWrite(STEPPER_PIN_1, HIGH);
-        digitalWrite(STEPPER_PIN_2, LOW);
-        digitalWrite(STEPPER_PIN_3, LOW);
-        digitalWrite(STEPPER_PIN_4, LOW);
-        break;
-        case 1:
-        digitalWrite(STEPPER_PIN_1, LOW);
-        digitalWrite(STEPPER_PIN_2, HIGH);
-        digitalWrite(STEPPER_PIN_3, LOW);
-        digitalWrite(STEPPER_PIN_4, LOW);
-        break;
-        case 2:
-        digitalWrite(STEPPER_PIN_1, LOW);
-        digitalWrite(STEPPER_PIN_2, LOW);
-        digitalWrite(STEPPER_PIN_3, HIGH);
-        digitalWrite(STEPPER_PIN_4, LOW);
-        break;
-        case 3:
-        digitalWrite(STEPPER_PIN_1, LOW);
-        digitalWrite(STEPPER_PIN_2, LOW);
-        digitalWrite(STEPPER_PIN_3, LOW);
-        digitalWrite(STEPPER_PIN_4, HIGH);
-        break;
-      }
-    }
-    else{
-      switch(step_number){
-        case 0:
-        digitalWrite(STEPPER_PIN_1, LOW);
-        digitalWrite(STEPPER_PIN_2, LOW);
-        digitalWrite(STEPPER_PIN_3, LOW);
-        digitalWrite(STEPPER_PIN_4, HIGH);
-        break;
-        case 1:
-        digitalWrite(STEPPER_PIN_1, LOW);
-        digitalWrite(STEPPER_PIN_2, LOW);
-        digitalWrite(STEPPER_PIN_3, HIGH);
-        digitalWrite(STEPPER_PIN_4, LOW);
-        break;
-        case 2:
-        digitalWrite(STEPPER_PIN_1, LOW);
-        digitalWrite(STEPPER_PIN_2, HIGH);
-        digitalWrite(STEPPER_PIN_3, LOW);
-        digitalWrite(STEPPER_PIN_4, LOW);
-        break;
-        case 3:
-        digitalWrite(STEPPER_PIN_1, HIGH);
-        digitalWrite(STEPPER_PIN_2, LOW);
-        digitalWrite(STEPPER_PIN_3, LOW);
-        digitalWrite(STEPPER_PIN_4, LOW);    
-      } 
+  if(dir){
+    digitalWrite(LED_GREEN, HIGH);
+    digitalWrite(LED_RED, LOW);
   }
-step_number++;
-  if(step_number > 3){
-    step_number = 0;
+  else{
+    digitalWrite(LED_GREEN, LOW);
+    digitalWrite(LED_RED, HIGH);
   }
+  
+  int step_sequence[8] = {B1000, B1100, B0100, B0110, B0010, B0011, B0001, B1001};
+  int index = dir ? step_number : (7 - step_number);
+  
+  for(int pin = 0; pin < 4; pin++){
+    digitalWrite(STEPPER_PIN_1 + pin, bitRead(step_sequence[index], pin));
+  }
+  
+  step_number = (step_number + 1) % 8;
 }
-
-void ledSignal(bool direction) {
-  digitalWrite(LED_FORWARD, LOW);
-  digitalWrite(LED_BACKWARD, LOW);
-  if(direction) digitalWrite(LED_FORWARD, HIGH);
-  else digitalWrite(LED_BACKWARD, HIGH);
-}
-
-int count = 0;
 
 void loop() {
-  
-  ledSignal(true);
-  while(count < 2048) {
+  for(int i = 0; i < FULL_ROTATION_STEPS; i++){
     singleStep(true);
-    ++count;
     delay(2);
   }
-  ledSignal(false);
-  while(count >= 2048 && count < 4096) {
+  
+  //delay(1000); // pause for a second
+  
+  for(int i = 0; i < FULL_ROTATION_STEPS; i++){
     singleStep(false);
-    ++count;
     delay(2);
   }
-  count = 0;
-
-  // put your main code here, to run repeatedly:
-  //ledSignal(true);
-  //singleStep(false);
-  //delay(2);
-  //ledSignal(false);
-  //singleStep(false);
-  //delay(1000);
+  
+  //delay(1000); // pause for a second
 }
