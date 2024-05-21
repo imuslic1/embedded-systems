@@ -34,7 +34,7 @@ generate_fibonacci:
 	beq done
 
 done:
-	@mov r0, #0               @ Status kod 0
-    @mov r7, #1               @ Syscall za exit
-    @swi 0                    @ Prekid za syscall
+	@mov r0, #0              @ Status kod 0
+    @mov r7, #1              @ Syscall za exit
+    @swi 0                   @ Prekid za syscall
 	b done
