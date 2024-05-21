@@ -4,7 +4,7 @@ prompt1:
 prompt2:
     .asciz "Unesen je tekst:\n"
 tekst:
-    .asciz "                   "  @ Buffer to store the input (20 spaces)
+    .asciz "                   "        @ Buffer to store the input (20 spaces)
 
 .text
 .global _start
