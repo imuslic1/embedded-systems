@@ -75,7 +75,7 @@ store_num_elements:
     ldr     r0, =max_elements     @ load maximum number of elements
     ldr     r1, [r0]              @ load max value into r1
     cmp     r2, r1                @ compare num_elements with max_elements
-    bhi     read_num_elements     @ if num_elements > max_elements, read again
+    bhi     exit_program_error    @ if num_elements > max_elements, read again
     ldr     r0, =num_elements     @ load address of num_elements
     str     r2, [r0]              @ store number of elements
 
@@ -271,3 +271,11 @@ exit_program:
     mov     r7, #1                @ syscall number for sys_exit
     mov     r0, #0                @ exit code
     swi     #0                    @ make the syscall
+
+exit_program_error:
+       @ mov     r7, #1                @ syscall number for sys_exit
+       @ mov     r0, #12               @ exit code
+       @ swi     #0                    @ make the syscall
+       b         _start                @ ask for user input again
+
+
